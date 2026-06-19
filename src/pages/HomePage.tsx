@@ -2,16 +2,6 @@ import { Link } from "react-router-dom";
 import { useCases } from "../data/useCases";
 import type { UseCase } from "../data/types";
 
-function criticalityClass(level: string): string {
-  const l = level.toLowerCase();
-  if (l.includes("critical")) return "bg-rose-500/20 text-rose-300 border-rose-500/40";
-  if (l.includes("very high")) return "bg-rose-500/15 text-rose-300 border-rose-500/30";
-  if (l.includes("high")) return "bg-orange-500/15 text-orange-300 border-orange-500/30";
-  if (l.includes("medium")) return "bg-amber-500/15 text-amber-300 border-amber-500/30";
-  if (l.includes("low")) return "bg-emerald-500/15 text-emerald-300 border-emerald-500/30";
-  return "bg-slate-500/15 text-slate-300 border-slate-500/30";
-}
-
 function LockIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className={className}>
@@ -29,18 +19,16 @@ function CardInner({ uc }: { uc: UseCase }) {
     <>
       <div className="flex items-center justify-between">
         <span className="text-xs font-mono text-accent-2">{uc.id}</span>
-        <div className="flex items-center gap-2">
-          {uc.locked && (
-            <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-muted">
-              <LockIcon className="h-3 w-3" /> Locked
-            </span>
-          )}
-          <span
-            className={`text-[10px] uppercase tracking-wider border rounded-full px-2 py-0.5 ${criticalityClass(uc.riskLevel)}`}
-          >
-            {uc.riskLevel}
-          </span>
-        </div>
+        <span
+          className={`inline-flex items-center gap-1 text-[10px] uppercase tracking-wider border rounded-full px-2 py-0.5 ${
+            uc.locked
+              ? "bg-rose-500/15 text-rose-300 border-rose-500/30"
+              : "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+          }`}
+        >
+          {uc.locked && <LockIcon className="h-3 w-3" />}
+          {uc.locked ? "Locked" : "Unlocked"}
+        </span>
       </div>
 
       <div
@@ -115,6 +103,20 @@ export default function HomePage() {
           <Stat label="Use cases" value={String(useCases.length)} />
           <Stat label="AI platforms integrated" value="26+" />
           <Stat label="Avg. process speed gain" value="~10×" />
+        </div>
+
+        <div className="mt-6 flex items-center gap-3 rounded-xl border border-border bg-panel px-4 py-3 text-sm text-muted">
+          <LockIcon className="h-4 w-4 flex-shrink-0 text-accent-2" />
+          <span>
+            To unlock the full interactive version, get in touch via{" "}
+            <a
+              href="https://artempotlog.com/#contact"
+              className="text-accent-2 underline underline-offset-4 hover:text-white transition"
+            >
+              artempotlog.com
+            </a>
+            .
+          </span>
         </div>
       </section>
 
