@@ -1,0 +1,13 @@
+# Render Blueprint — AI Workflow Simulations (LOCKED preview, static, Vite)
+# Deploy: push this folder as a GitHub repo, then in Render: New + > Blueprint.
+services:
+  - type: web
+    name: abc2-ai-usecases
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    pullRequestPreviewsEnabled: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
